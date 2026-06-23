@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bookmark | Your local bookshop, online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f2ea;
+    --paper-2:#efe9dd;
+    --ink:#211c18;
+    --ink-soft:#5f574d;
+    --line:#d9d0c2;
+    --accent:#8c2f25;
+    --accent-deep:#6e231b;
+    --max:1180px;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  section{padding:120px 0;border-top:1px solid var(--line);}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;line-height:1.04;}
+  a{color:inherit;text-decoration:none;}
+
+  .kicker{
+    font-family:var(--sans);font-size:.74rem;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:14px;margin-bottom:28px;
+  }
+  .kicker::before{content:attr(data-n);font-variant-numeric:tabular-nums;color:var(--ink-soft);font-weight:600;}
+  .kicker.plain::before{content:none;}
+
+  /* MASTHEAD with background video */
+  .masthead{position:relative;overflow:hidden;background:#1a1512;}
+  .masthead-video{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  }
+  .masthead-overlay{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(20,16,13,.55) 0%,rgba(20,16,13,.45) 40%,rgba(20,16,13,.78) 100%);
+  }
+  .masthead > header.nav,.masthead > .hero{position:relative;z-index:2;}
+
+  /* NAV */
+  header.nav{border-bottom:1px solid rgba(255,255,255,.14);}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{font-family:var(--serif);font-size:1.45rem;font-weight:600;letter-spacing:-.01em;color:#f6f2ea;}
+  .brand b{color:#e0a59c;}
+  .navlinks{display:flex;gap:34px;font-size:.9rem;font-weight:500;color:rgba(246,242,234,.78);}
+  .navlinks a:hover{color:#fff;}
+  .btn{
+    display:inline-block;font-family:var(--sans);font-weight:600;font-size:.92rem;
+    background:var(--accent);color:#fff;padding:13px 24px;border-radius:2px;transition:background .18s ease;
+  }
+  .btn:hover{background:var(--accent-deep);}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);}
+  .btn.ghost:hover{background:var(--ink);color:var(--paper);}
+  @media(max-width:880px){.navlinks{display:none;}}
+
+  /* HERO */
+  .hero{padding:140px 0 130px;border-top:none;color:#f6f2ea;}
+  .hero h1{font-size:clamp(3rem,7.4vw,6.4rem);max-width:14ch;color:#fff;}
+  .hero h1 em{font-style:italic;color:#e0a59c;}
+  .hero .sub{font-size:clamp(1.15rem,1.7vw,1.4rem);color:rgba(246,242,234,.85);max-width:54ch;margin-top:34px;line-height:1.5;}
+  .hero .cta{margin-top:46px;display:flex;gap:16px;flex-wrap:wrap;}
+  .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.6);}
+  .hero .btn.ghost:hover{background:#fff;color:var(--ink);border-color:#fff;}
+  .heroline{display:flex;gap:60px;margin-top:84px;border-top:1px solid rgba(255,255,255,.2);padding-top:42px;flex-wrap:wrap;}
+  .heroline .item{flex:1;min-width:180px;}
+  .heroline .big{font-family:var(--serif);font-size:3rem;font-weight:500;line-height:1;color:#fff;}
+  .heroline .lbl{color:rgba(246,242,234,.72);font-size:.95rem;margin-top:12px;max-width:24ch;}
+
+  /* PROBLEM */
+  .lead{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.28;font-weight:400;max-width:24ch;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+  .two p{font-size:1.08rem;color:var(--ink-soft);}
+  .two p + p{margin-top:22px;}
+  @media(max-width:880px){.two{grid-template-columns:1fr;gap:36px;}}
+
+  /* CHALLENGES */
+  h2.section-title{font-size:clamp(2.2rem,4.4vw,3.6rem);max-width:18ch;margin-bottom:60px;}
+  .challenges{border-top:1px solid var(--line);}
+  .ch{
+    display:grid;grid-template-columns:90px 1fr 1.1fr;gap:40px;align-items:baseline;
+    padding:38px 0;border-bottom:1px solid var(--line);
+  }
+  .ch .idx{font-family:var(--serif);font-size:2.2rem;color:var(--accent);line-height:1;}
+  .ch .ct{font-family:var(--serif);font-size:1.6rem;font-weight:500;line-height:1.15;}
+  .ch .cd{color:var(--ink-soft);font-size:1.05rem;}
+  @media(max-width:880px){.ch{grid-template-columns:1fr;gap:10px;}.ch .idx{font-size:1.6rem;}}
+
+  /* INSIGHTS */
+  .insights{background:var(--ink);color:var(--paper);border-top:none;}
+  .insights .kicker{color:#e0a59c;}
+  .insights .kicker::before{color:#9a9088;}
+  .pullquote{font-family:var(--serif);font-size:clamp(2.2rem,5vw,4rem);line-height:1.1;max-width:18ch;font-weight:400;}
+  .pullquote em{font-style:italic;color:#e0a59c;}
+  .insights .note{font-size:1.15rem;color:#c9c1b6;max-width:52ch;margin-top:40px;line-height:1.55;}
+  .statband{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:90px;border-top:1px solid #3a332d;}
+  .statband .s{padding:46px 50px 46px 0;border-right:1px solid #3a332d;}
+  .statband .s:last-child{padding-left:50px;border-right:none;}
+  .statband .num{font-family:var(--serif);font-size:clamp(3.4rem,8vw,6rem);line-height:.95;color:#fff;}
+  .statband .cap{color:#c9c1b6;font-size:1.05rem;margin-top:18px;max-width:30ch;}
+  @media(max-width:880px){.statband{grid-template-columns:1fr;}.statband .s{padding:36px 0;border-right:none;border-bottom:1px solid #3a332d;}.statband .s:last-child{padding-left:0;}}
+
+  /* QUESTIONS */
+  .qs{display:flex;flex-direction:column;}
+  .q{
+    font-family:var(--serif);font-size:clamp(1.5rem,3.4vw,2.6rem);font-weight:400;line-height:1.2;
+    padding:34px 0;border-bottom:1px solid var(--line);display:flex;gap:30px;align-items:baseline;
+  }
+  .q .qn{font-size:1rem;font-family:var(--sans);font-weight:600;color:var(--accent);min-width:42px;}
+  .q-after{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);margin-top:46px;color:var(--accent);max-width:22ch;line-height:1.2;}
+
+  /* OPTIONS */
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .opt{border:1px solid var(--line);background:#fff;padding:40px 34px;display:flex;flex-direction:column;}
+  .opt .ot{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+  .opt h3{font-size:1.7rem;margin-top:16px;line-height:1.12;}
+  .opt p{color:var(--ink-soft);margin-top:18px;font-size:1.02rem;flex:1;}
+  .opt.pick{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .opt.pick .ot{color:#e0a59c;}
+  .opt.pick p{color:#c9c1b6;}
+  .opt .pickrow{margin-top:26px;font-family:var(--sans);font-weight:600;font-size:.9rem;color:#e0a59c;}
+  @media(max-width:880px){.opts{grid-template-columns:1fr;}}
+
+  /* RECOMMENDED */
+  .recommended{background:var(--paper-2);}
+  .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;}
+  .rec{display:grid;grid-template-columns:auto 1fr;gap:22px;padding:30px 0;border-bottom:1px solid var(--line);}
+  .rec .rn{font-family:var(--serif);font-size:1.4rem;color:var(--accent);line-height:1;}
+  .rec h3{font-size:1.35rem;font-weight:500;}
+  .rec p{color:var(--ink-soft);font-size:1.02rem;margin-top:8px;}
+  @media(max-width:880px){.rec-grid{grid-template-columns:1fr;}}
+
+  /* BREAKDOWN */
+  .break .bk{
+    display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;
+    padding:80px 0;border-bottom:1px solid var(--line);
+  }
+  .break .bk:last-child{border-bottom:none;}
+  .bk .label{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
+  .bk h3{font-size:clamp(1.8rem,3.2vw,2.6rem);margin-top:18px;line-height:1.1;}
+  .bk .body{color:var(--ink-soft);font-size:1.1rem;margin-top:22px;max-width:46ch;}
+  @media(max-width:880px){.break .bk{grid-template-columns:1fr;gap:34px;}}
+
+  /* DB TABLE */
+  .dbcard{background:#fff;border:1px solid var(--line);padding:34px;}
+  .dbcard .cap{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:20px;}
+  table.db{width:100%;border-collapse:collapse;font-size:.98rem;}
+  table.db th{text-align:left;font-family:var(--sans);font-weight:600;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding:0 0 14px;border-bottom:1px solid var(--line);}
+  table.db td{padding:18px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft);}
+  table.db tr:last-child td{border-bottom:none;}
+  table.db code{font-family:"SFMono-Regular",Consolas,monospace;font-size:.92rem;color:var(--ink);background:var(--paper-2);padding:3px 8px;border-radius:2px;}
+  .pk{display:inline-block;margin-left:8px;font-family:var(--sans);font-size:.66rem;font-weight:700;letter-spacing:.08em;color:var(--accent);border:1px solid var(--accent);padding:2px 6px;border-radius:2px;vertical-align:middle;}
+  .flow{margin-top:28px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:.95rem;}
+  .flow .step{background:var(--paper-2);padding:10px 16px;font-weight:500;color:var(--ink);}
+  .flow .arr{color:var(--accent);font-weight:700;font-size:1.2rem;}
+
+  .pillrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
+  .pill{border:1px solid var(--line);background:#fff;padding:12px 18px;font-weight:500;font-size:.98rem;}
+
+  /* IMPLEMENTATION */
+  .plan .ph{display:grid;grid-template-columns:160px 1fr;gap:48px;padding:42px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+  .plan .ph:first-of-type{border-top:1px solid var(--line);}
+  .plan .pn{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
+  .plan .pn span{display:block;font-family:var(--serif);font-size:2.4rem;font-weight:500;color:var(--ink);letter-spacing:-.01em;margin-top:6px;}
+  .plan h3{font-size:1.6rem;font-weight:500;}
+  .plan p{color:var(--ink-soft);font-size:1.08rem;margin-top:10px;max-width:60ch;}
+  @media(max-width:880px){.plan .ph{grid-template-columns:1fr;gap:14px;}}
+
+  /* CTA */
+  .cta-final{background:var(--accent);color:#fff;text-align:center;border-top:none;}
+  .cta-final h2{font-size:clamp(2.4rem,5vw,4.2rem);max-width:18ch;margin:0 auto 30px;}
+  .cta-final h2 em{font-style:italic;}
+  .cta-final p{color:#f3ddd9;font-size:1.2rem;max-width:46ch;margin:0 auto 44px;}
+  .cta-final .btn{background:#fff;color:var(--accent);}
+  .cta-final .btn:hover{background:var(--ink);color:#fff;}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:#c9c1b6;padding:70px 0;border-top:none;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+  footer .brand{color:var(--paper);}
+  footer .fl{display:flex;gap:30px;font-size:.92rem;}
+  footer a:hover{color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <video class="masthead-video" autoplay muted loop playsinline poster="">
+    <source src="placeholder.mp4" type="video/mp4">
+  </video>
+  <div class="masthead-overlay"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <div class="brand">The <b>Bookmark</b></div>
+    <nav class="navlinks">
+      <a href="#shop">Shop</a>
+      <a href="#location">Visit us</a>
+      <a href="#information">How it works</a>
+    </nav>
+    <a href="#cta" class="btn">Browse the catalogue</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Your bookshop. Now <em>open</em> whenever you are.</h1>
+    <p class="sub">Browse our full stock, check what's on the shelf, and order online for delivery or collection. <b><em>This is our way of contributing back to the community.</em><b></p>
+    <div class="cta">
+      <a href="#cta" class="btn">Browse the catalogue</a>
+      <a href="#shop" class="btn ghost">How to order</a>
+    </div>
+    <div class="heroline">
+      <div class="item"><div class="big">Live</div><div class="lbl">stock updated in real time as books come in</div></div>
+      <div class="item"><div class="big">Free</div><div class="lbl">in-store collection, ready when you are</div></div>
+      <div class="item"><div class="big">Local</div><div class="lbl">independent, community-run, and always personal</div></div>
+    </div>
+  </div>
+</section>
+</div><!-- /masthead -->
+
+<!-- ABOUT -->
+<section id="problem">
+  <div class="wrap">
+    <div class="kicker" data-n="01">Who we are</div>
+    <div class="two">
+      <div class="lead">A bookshop built on community, now easier to use than ever.</div>
+      <div>
+        <p>The Bookmark has been a local favourite for years. Regulars know us for our hand-picked stock, our staff recommendations, and the kind of unhurried browsing that bigger retailers simply cannot offer.</p>
+        <p>Now you can check what's on the shelf before you leave the house, place an order from anywhere, and still come in to collect it yourself. The shop has not changed. It is just open to more of you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE OFFER -->
+<section id="challenges">
+  <div class="wrap">
+    <div class="kicker" data-n="02">What you get</div>
+    <h2 class="section-title">Five reasons to shop with us online.</h2>
+    <div class="challenges">
+      <div class="ch"><div class="idx">01</div><div class="ct">Live stock, always accurate</div><div class="cd">Every book on our shelves is tracked in real time, so you know exactly what is available before you visit or order.</div></div>
+      <div class="ch"><div class="idx">02</div><div class="ct">One place to reach us</div><div class="cd">Questions, recommendations, or special requests — one email gets to us directly, and we actually read it.</div></div>
+      <div class="ch"><div class="idx">03</div><div class="ct">Order from home, collect in person</div><div class="cd">Reserve a book online and pick it up at the shop. No queuing, no uncertainty, just your book waiting for you.</div></div>
+      <div class="ch"><div class="idx">04</div><div class="ct">Search our full catalogue yourself</div><div class="cd">By title, author, or ISBN — the same kind of search you know from any library, but for our shelves.</div></div>
+      <div class="ch"><div class="idx">05</div><div class="ct">Home delivery available</div><div class="cd">Can't make it in? We'll send it to you. Pay securely online and we'll handle the rest.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY LOCAL -->
+<section id="insights" class="insights">
+  <div class="wrap">
+    <div class="kicker" data-n="03">Why it matters</div>
+    <div class="pullquote">When did you last find a book you weren't <em>looking for?</em></div>
+    <p class="note">That is what a local bookshop does. Not an algorithm, not a bestseller list — just a well-chosen shelf and someone who actually reads. That is what The Bookmark has always been, and what we are keeping.</p>
+    <div class="statband">
+      <div class="s">
+        <div class="num">100%</div>
+        <div class="cap">independent — no chain, no shareholder, no algorithm deciding what you see.</div>
+      </div>
+      <div class="s">
+        <div class="num">Same day</div>
+        <div class="cap">collection available on most titles in stock — order before noon, collect the same afternoon.</div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:54px;">Shopping with us means your money stays local. It goes back into the shop, the stock, and the community around it. Every order, however small, keeps an independent bookshop on the high street.</p>
+  </div>
+</section>
+
+<!-- HOW TO ORDER -->
+<section id="questions">
+  <div class="wrap">
+    <div class="kicker" data-n="04">Good to know before you order</div>
+    <div class="qs">
+      <div class="q"><span class="qn">01</span><span>Can I check if a book is in stock before visiting?</span></div>
+      <div class="q"><span class="qn">02</span><span>Do I have to make an account to buy?</span></div>
+      <div class="q"><span class="qn">03</span><span>What if the book I want is not listed?</span></div>
+    </div>
+    <div class="q-after">All of this is answered below, and we are always a message away.</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="solution">
+  <div class="wrap">
+    <div class="kicker" data-n="05">Ways to shop</div>
+    <h2 class="section-title">Three ways to get your next book.</h2>
+    <div class="opts">
+      <div class="opt">
+        <div class="ot">Option A</div>
+        <h3>Come in and browse</h3>
+        <p>The original experience. Walk in, take your time, and leave with something you did not expect. Our staff are always happy to help.</p>
+      </div>
+      <div class="opt">
+        <div class="ot">Option B</div>
+        <h3>Order for home delivery</h3>
+        <p>Find your book in the catalogue, pay securely online, and we will post it out to you. Tracked delivery, no fuss.</p>
+      </div>
+      <div class="opt pick">
+        <div class="ot">Option C</div>
+        <h3>Reserve and collect</h3>
+        <p>Order online, skip the wait, and collect from the shop at a time that suits you. The personal touch, without the uncertainty.</p>
+        <div class="pickrow">Most popular</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="recommended" class="recommended">
+  <div class="wrap">
+    <div class="kicker" data-n="06">Everything the site does</div>
+    <h2 class="section-title">One shop, six ways it works for you.</h2>
+    <div class="rec-grid">
+      <div class="rec"><div class="rn">01</div><div><h3>Search by title, author, or ISBN</h3><p>Find exactly what you are after, or discover what we have on a subject.</p></div></div>
+      <div class="rec"><div class="rn">02</div><div><h3>Live stock levels</h3><p>See whether a book is on the shelf right now, before you leave home.</p></div></div>
+      <div class="rec"><div class="rn">03</div><div><h3>One contact email</h3><p>Special orders, questions, or recommendations — we are easy to reach.</p></div></div>
+      <div class="rec"><div class="rn">04</div><div><h3>Reserve for collection</h3><p>Hold a book at the shop and collect whenever suits you.</p></div></div>
+      <div class="rec"><div class="rn">05</div><div><h3>Secure online payment</h3><p>Pay by card or PayPal for delivery or collection orders.</p></div></div>
+      <div class="rec"><div class="rn">06</div><div><h3>News and picks from the owner</h3><p>Follow us for recommendations, new arrivals, and events.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS IN DETAIL -->
+<section id="breakdown" class="break">
+  <div class="wrap">
+    <div class="kicker" data-n="07">How each part works</div>
+    <h2 class="section-title">Simple from start to finish.</h2>
+
+    <div class="bk">
+      <div>
+        <div class="label">Finding a book</div>
+        <h3>Search the way you already do at a library.</h3>
+        <p class="body">Every book in the shop has a record in our catalogue. Search by title, author, or ISBN and you will see whether it is in stock. Titles without a standard ISBN are still listed, so nothing slips through the gaps. Stock levels update automatically as books come in, so what you see is always accurate.</p>
+        <div class="flow">
+          <span class="step">Search the catalogue</span><span class="arr">&rarr;</span>
+          <span class="step">Check availability</span><span class="arr">&rarr;</span>
+          <span class="step">Order or visit</span>
+        </div>
+      </div>
+      <div class="dbcard">
+        <div class="cap">What you can search by</div>
+        <table class="db">
+          <thead><tr><th>Search type</th><th>Example</th><th>Works for</th></tr></thead>
+          <tbody>
+            <tr><td><code>Title</code></td><td>text</td><td>Any book in the catalogue, including older and out-of-print titles we have in stock.</td></tr>
+            <tr><td><code>Author</code></td><td>text</td><td>Browse everything we carry by a particular writer.</td></tr>
+            <tr><td><code>ISBN</code><span class="pk">Exact</span></td><td>13-digit code</td><td>Find a specific edition. The most reliable search if you already know what you want.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bk">
+      <div>
+        <div class="label">Getting in touch</div>
+        <h3>One email. A real reply.</h3>
+        <p class="body">All enquiries come to a single inbox, so nothing gets missed. Whether you are chasing an order, asking for a recommendation, or requesting a title we do not currently stock, you will always reach the right person. We aim to respond the same day.</p>
+      </div>
+      <div>
+        <div class="label">Ordering online</div>
+        <h3>Local at heart, open to everyone.</h3>
+        <p class="body">The site is built around the shop, not the other way around. Collection is always front and centre because we want you to come in when you can. Delivery is there for when you cannot. Either way, the experience should feel like The Bookmark.</p>
+      </div>
+    </div>
+
+    <div class="bk">
+      <div>
+        <div class="label">Checking stock</div>
+        <h3>No need to phone ahead.</h3>
+        <p class="body">Stock levels on the site reflect what is actually on the shelf. Search for a title and you will see whether it is available right now. You can search by title, author, or ISBN, just as you would on any library catalogue. No account needed to browse.</p>
+        <div class="pillrow">
+          <span class="pill">Title</span>
+          <span class="pill">Author</span>
+          <span class="pill">ISBN</span>
+          <span class="pill">In stock</span>
+        </div>
+      </div>
+      <div>
+        <div class="label">Paying and collecting</div>
+        <h3>Order in minutes. Collect the same day.</h3>
+        <p class="body">Place your order online, pay securely, and choose delivery or collection at the shop. Collection orders placed before noon are usually ready the same afternoon. Delivery orders are dispatched the next working day.</p>
+        <div class="pillrow">
+          <span class="pill">Mastercard</span>
+          <span class="pill">Visa</span>
+          <span class="pill">PayPal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ORDER STEPS -->
+<section id="plan" class="plan">
+  <div class="wrap">
+    <div class="kicker" data-n="08">Placing an order</div>
+    <h2 class="section-title">Five steps from search to shelf.</h2>
+
+    <div class="ph"><div class="pn">Step<span>01</span></div><div><h3>Search the catalogue</h3><p>Enter a title, author, or ISBN. You will see whether the book is in stock and how many copies are available.</p></div></div>
+    <div class="ph"><div class="pn">Step<span>02</span></div><div><h3>Choose your book</h3><p>Select the edition you want and add it to your order. You can keep browsing and add more before you check out.</p></div></div>
+    <div class="ph"><div class="pn">Step<span>03</span></div><div><h3>Pick delivery or collection</h3><p>Choose to have your order posted to you, or reserve it for collection at the shop at a time that suits you.</p></div></div>
+    <div class="ph"><div class="pn">Step<span>04</span></div><div><h3>Pay securely online</h3><p>We accept Mastercard, Visa, and PayPal. Your payment is processed securely and you will receive a confirmation by email.</p></div></div>
+    <div class="ph"><div class="pn">Step<span>05</span></div><div><h3>Collect or wait for the post</h3><p>Collection orders are usually ready the same afternoon. Delivery orders go out the next working day. We will keep you updated either way.</p></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-final">
+  <div class="wrap">
+    <h2>The same shop. <em>Open whenever you are.</em></h2>
+    <p>Browse our full catalogue, check stock in real time, and order for delivery or collection today.</p>
+    <a href="mailto:hello@thebookmark.example" class="btn">Get in touch</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">The <span style="color:#e0a59c;">Bookmark</span></div>
+    <nav class="fl">
+      <a href="#problem">About us</a>
+      <a href="#solution">How to shop</a>
+      <a href="#plan">How to order</a>
+      <a href="#cta">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
